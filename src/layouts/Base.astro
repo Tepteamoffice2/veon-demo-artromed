@@ -10,6 +10,7 @@ import "../styles/sections.css";
 
 interface Props { lang: string; title: string; description: string; canonical?: string; }
 const { lang, title, description, canonical } = Astro.props;
+const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + "/";
 ---
 <!doctype html>
 <html lang={lang} data-rec="R-003,R-110,R-202,R-204">
@@ -25,7 +26,7 @@ const { lang, title, description, canonical } = Astro.props;
     <meta property="og:locale" content="uk_UA" />
     <meta name="theme-color" content="#FAFBFC" />
     <meta name="robots" content="noindex" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
     <link rel="preload" href={onestCyr400} as="font" type="font/woff2" crossorigin />
     <slot name="head" />
     <style is:global>html, body { overflow-x: clip; }</style>
