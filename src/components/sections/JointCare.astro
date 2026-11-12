@@ -1,0 +1,124 @@
+---
+// #joint-care — «Шлях суглоба»: stops of the treatment with prices (company.products_services, W-F009, W-F010).
+import Section from "../Section.astro";
+import Stop from "../Stop.astro";
+import FutureLink from "../FutureLink.astro";
+import Icon from "../Icon.astro";
+import { mainPhone } from "../../data/clinic";
+import { uah, num } from "../../lib/price";
+
+const implants = [
+  { brand: "aap", name: "AAP", price: uah(160000) },
+  { brand: "zimmer", name: "Zimmer", price: uah(188000) },
+  { brand: "medacta", name: "Medacta", price: uah(230000) },
+];
+---
+<Section id="joint-care" class="joint route" rec="R-107">
+  <div class="container">
+    <div class="section-head joint__head">
+      <Stop />
+      <h2>Шлях лікування суглоба: від огляду до ендопротезування</h2>
+      <p class="section-head__lead">Операція не перший крок. На кожній зупинці ціна з прайсу центру.</p>
+    </div>
+
+    <ol class="path" role="list">
+      <li class="path__stop">
+        <Stop />
+        <div class="path__name">
+          <h3>Огляд ортопеда-травматолога</h3>
+          <p>Так само приймає дитячий ортопед-травматолог.</p>
+        </div>
+        <div class="path__price">
+          <p class="price figure">{uah(800)}</p>
+          <p class="path__detail">первинна консультація; повторна: <strong class="figure">{uah(700)}</strong></p>
+        </div>
+      </li>
+
+      <li class="path__stop">
+        <Stop />
+        <div class="path__name">
+          <h3>Плантографія</h3>
+          <p>Обстеження стопи.</p>
+        </div>
+        <div class="path__price">
+          <p class="price figure">{uah(700)}</p>
+        </div>
+      </li>
+
+      <li class="path__stop">
+        <Stop />
+        <div class="path__name">
+          <h3>Без операції</h3>
+          <p>Внутрішньосуглобове введення гіалуронової кислоти та PRP-терапія.</p>
+        </div>
+        <div class="path__price">
+          <p class="price figure"><span class="price__from">від</span> {uah(1450)}</p>
+          <ul class="path__rows" role="list">
+            <li><span>Гіалуронова кислота</span><strong class="figure">{num(1450)} / {num(2200)} / {uah(3500)}</strong></li>
+            <li><span>PRP-терапія</span><strong class="figure">{uah(1700)}</strong></li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="path__stop">
+        <Stop />
+        <div class="path__name">
+          <h3>Артроскопія</h3>
+          <p>Колінний і плечовий суглоби.</p>
+        </div>
+        <div class="path__price">
+          <p class="price figure"><span class="price__from">від</span> {uah(30000)}</p>
+          <ul class="path__rows" role="list">
+            <li><span>Колінний суглоб</span><strong class="figure">{uah(30000)}</strong></li>
+            <li><span>Плечовий суглоб</span><strong class="figure">{num(40000)}–{uah(66000)}</strong></li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="path__stop path__stop--last">
+        <Stop />
+        <div class="path__name">
+          <h3>Ендопротезування</h3>
+          <p>Ціна колінного суглоба залежить від імпланта. Оберіть виробника.</p>
+        </div>
+        <div class="path__price implant" data-implant>
+          <div class="seg" role="group" aria-label="Імплант колінного суглоба">
+            {implants.map((im) => (
+              <button type="button" class="seg__btn" data-brand={im.brand} aria-pressed="false">{im.name}</button>
+            ))}
+          </div>
+          <ul class="implant__prices" role="list" aria-live="polite">
+            {implants.map((im) => (
+              <li class="implant__price" data-price={im.brand}>
+                <span class="implant__brand">Колінний, {im.name}</span>
+                <span class="price figure">{im.price}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="implant__note">Вартість може змінюватися, точну суму уточнюйте по телефону.</p>
+          <ul class="path__rows" role="list">
+            <li><span>Плечовий суглоб</span><strong class="figure">{uah(290000)}</strong></li>
+            <li><span>Ревізійне ендопротезування</span><strong>за домовленістю</strong></li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+
+    <div class="joint__more">
+      <h3 class="joint__more-title">Також у прайсі ортопедії</h3>
+      <ul class="rows" role="list">
+        <li class="rows__item"><span>Металоостеосинтез кінцівки</span><strong class="figure">{uah(50000)} пластина, {uah(60000)} стрижень</strong></li>
+        <li class="rows__item"><span>Реконструкція переднього відділу стопи</span><strong class="figure">{uah(35000)}</strong></li>
+        <li class="rows__item rows__item--promo"><span>Операція халюкс вальгус, акція до 30 листопада 2026</span><strong class="figure">{uah(39000)} за ногу замість {uah(46000)}</strong></li>
+      </ul>
+    </div>
+
+    <div class="joint__foot">
+      <p class="joint__note">Вартість може змінюватися, уточніть по телефону.</p>
+      <div class="joint__actions">
+        <FutureLink note="Розділ у розробці" class="joint__price-link">Повний прайс</FutureLink>
+        <a class="btn btn--primary" href={mainPhone.href}><Icon name="phone" />Подзвонити</a>
+      </div>
+    </div>
+  </div>
+</Section>

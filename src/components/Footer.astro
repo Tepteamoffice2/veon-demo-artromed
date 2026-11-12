@@ -1,0 +1,29 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo-artromed.png";
+import FutureLink from "./FutureLink.astro";
+import { nav, legalName, brandName, socials, futureNote } from "../data/clinic";
+---
+<footer class="site-footer" data-rec="R-109,R-001,R-002,R-302,S-R101">
+  <div class="container site-footer__row">
+    <a class="site-footer__logo" href="#top" aria-label="Медичний центр Artromed, на початок сторінки">
+      <Image src={logo} alt="" width={112} height={60} widths={[112, 224]} sizes="112px" format="webp" loading="lazy" />
+    </a>
+    <nav aria-label="Розділи сторінки, повтор">
+      <ul class="site-footer__nav" role="list">
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+  <div class="container site-footer__row site-footer__row--legal">
+    <p>{legalName}</p>
+    <ul class="site-footer__legal" role="list">
+      <li><FutureLink note={futureNote}>Політика конфіденційності</FutureLink></li>
+      <li><FutureLink note={futureNote}>Правила та умови</FutureLink></li>
+    </ul>
+    <ul class="site-footer__socials" role="list" aria-label="Соцмережі">
+      {socials.map((s) => <li><a href={s.href} target="_blank" rel="noopener">{s.name}</a></li>)}
+    </ul>
+    <p class="site-footer__copy">© 2026 {brandName}</p>
+  </div>
+</footer>

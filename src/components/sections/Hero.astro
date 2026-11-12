@@ -1,0 +1,69 @@
+---
+import { getImage } from "astro:assets";
+import Section from "../Section.astro";
+import Stop from "../Stop.astro";
+import Icon from "../Icon.astro";
+import portrait from "../../assets/photos/reception-portrait.jpg";
+import wide from "../../assets/photos/reception-wide.jpg";
+import { mainPhone, hours, address } from "../../data/clinic";
+import { uah } from "../../lib/price";
+
+interface Props { h1: string; }
+const { h1 } = Astro.props;
+
+type Src = typeof portrait;
+async function set(src: Src, widths: number[], format: "avif" | "webp", quality: number) {
+  const out = await Promise.all(widths.map((w) => getImage({ src, width: w, format, quality })));
+  return out.map((img, i) => `${img.src} ${widths[i]}w`).join(", ");
+}
+const portraitW = [480, 720, 858];
+const wideW = [400, 640, 800, 1200];
+const sources = {
+  pAvif: await set(portrait, portraitW, "avif", 60),
+  pWebp: await set(portrait, portraitW, "webp", 74),
+  wAvif: await set(wide, wideW, "avif", 55),
+  wWebp: await set(wide, wideW, "webp", 70),
+};
+const fallback = await getImage({ src: wide, width: 800, format: "webp", quality: 70 });
+const desktopSizes = "(min-width: 90rem) 410px, 30vw";
+const mobileSizes = "(min-width: 40rem) calc(100vw - 96px), calc(100vw - 48px)";
+---
+<Section id="hero" class="hero route" rec="R-101,R-102,R-006,R-301,S-R-GA02,S-R-MA03">
+  <div class="container hero__grid">
+    <div class="hero__text">
+      <Stop class="stop--hero" />
+      <h1 class="hero__title">{h1}</h1>
+      <p class="hero__lead">Огляд, діагностика, операція і власна палата після неї: під одним дахом.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg hero__cta" href={mainPhone.href} data-hero-cta>
+          <Icon name="phone" />Подзвонити
+        </a>
+        <p class="hero__phone">
+          <a href={mainPhone.href}>{mainPhone.display}</a>
+          <span>{hours.short}</span>
+        </p>
+      </div>
+      <ul class="hero__facts" role="list">
+        <li>Первинна консультація ортопеда-травматолога: <strong>{uah(800)}</strong></li>
+        <li>{address.street}</li>
+      </ul>
+      <a class="link-arrow hero__more" href="#directions"><span>Обрати напрямок</span><Icon name="arrow" /></a>
+    </div>
+    <figure class="hero__photo" data-rec="R-201,R-206,S-R-GA03">
+      <picture>
+        <source media="(min-width: 64rem)" type="image/avif" srcset={sources.pAvif} sizes={desktopSizes} />
+        <source media="(min-width: 64rem)" type="image/webp" srcset={sources.pWebp} sizes={desktopSizes} />
+        <source type="image/avif" srcset={sources.wAvif} sizes={mobileSizes} />
+        <source type="image/webp" srcset={sources.wWebp} sizes={mobileSizes} />
+        <img
+          src={fallback.src}
+          width={wide.width}
+          height={wide.height}
+          alt="Ресепшен медичного центру Artromed на Балківській: стійка адміністратора і логотип центру на стіні"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </picture>
+    </figure>
+  </div>
+</Section>

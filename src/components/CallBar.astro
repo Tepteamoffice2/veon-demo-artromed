@@ -1,0 +1,9 @@
+---
+// Phone-only bottom bar (ux/demo-home.md §6): call in one tap from anywhere on the page.
+import Icon from "./Icon.astro";
+import { mainPhone } from "../data/clinic";
+---
+<div class="callbar" data-rec="R-101,R-108">
+  <a class="btn btn--primary callbar__btn" href={mainPhone.href}><Icon name="phone" />Подзвонити</a>
+  <p class="callbar__hours">Пн–Сб <span class="nowrap">08:00–20:00</span></p>
+</div>

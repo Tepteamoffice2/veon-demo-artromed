@@ -1,0 +1,107 @@
+---
+// #directions — «Покажчик»: 15 directions grouped by what bothers the patient (company.business_lines, W-F010).
+import Section from "../Section.astro";
+import Stop from "../Stop.astro";
+import FutureLink from "../FutureLink.astro";
+import Icon from "../Icon.astro";
+import { futureNote, mainPhone } from "../../data/clinic";
+import { uah } from "../../lib/price";
+
+interface Promo { lead: string; price: string; rest?: string; }
+interface Group { id: string; title: string; items: string[]; promo?: Promo; size: "lead" | "s" | "m" | "l" | "rest"; }
+
+const until = "до 30 листопада 2026";
+// items that are shown on this page in #joint-care: an anchor instead of a future page
+const onPath = new Set([
+  "Травматологія та ортопедія",
+  "Ендопротезування колінного, кульшового і плечового суглобів",
+  "Артроскопія",
+  "Ін'єкції гіалуронової кислоти та PRP-терапія",
+  "Лікування переломів",
+  "Халюкс вальгус",
+  "Дитячий ортопед-травматолог",
+  "Плантографія",
+]);
+const groups: Group[] = [
+  {
+    id: "joints", title: "Суглоби і травми", size: "lead",
+    items: [
+      "Травматологія та ортопедія",
+      "Ендопротезування колінного, кульшового і плечового суглобів",
+      "Артроскопія",
+      "Ін'єкції гіалуронової кислоти та PRP-терапія",
+      "Лікування переломів",
+      "Халюкс вальгус",
+      "Дитячий ортопед-травматолог",
+    ],
+    promo: { lead: "Операція халюкс вальгус", price: uah(39000), rest: `за ногу замість ${uah(46000)}` },
+  },
+  { id: "spine", title: "Хребет і нервова система", size: "s", items: ["Нейрохірургія", "Лікування міжхребцевої грижі", "Неврологія"] },
+  {
+    id: "vessels", title: "Судини", size: "s",
+    items: ["Судинна хірургія", "Лікування варикозу"],
+    promo: { lead: "Флебологічний чек-ап", price: uah(800) },
+  },
+  { id: "women", title: "Жіноче здоров'я", size: "s", items: ["Гінекологія", "Гістероскопія", "Видалення міоми і поліпів", "Естетична гінекологія"] },
+  {
+    id: "men", title: "Чоловіче здоров'я", size: "s",
+    items: ["Урологія"],
+    promo: { lead: "Урологічний чек-ап", price: uah(2900), rest: `для чоловіків, ${uah(1900)} для жінок` },
+  },
+  {
+    id: "diagnostics", title: "Діагностика", size: "l",
+    items: [
+      "Лабораторна діагностика",
+      "ЕКГ",
+      "Кольпоскопія",
+      "УЗД серця (ЕхоКГ), зокрема дітям",
+      "УЗД щитоподібної залози, черевної порожнини, нирок і сечового міхура",
+      "УЗД молочних залоз, малого тазу, ранніх термінів вагітності",
+      "УЗД судин нижніх кінцівок",
+      "Дуплексне сканування судин голови та шиї",
+      "Плантографія",
+    ],
+  },
+  {
+    id: "other", title: "Інші напрямки", size: "rest",
+    items: ["Проктологія", "Загальна хірургія", "Інтервенційна кардіологія", "Ендокринологія", "Отоларингологія", "Реабілітація і фізіотерапія", "Масаж", "Косметологія", "Трансплантація волосся"],
+  },
+];
+---
+<Section id="directions" class="band band--dark directions route" rec="R-103,R-108">
+  <div class="container">
+    <div class="section-head directions__head">
+      <Stop />
+      <h2>15 напрямків — знайдіть свій за тим, що турбує</h2>
+      <p class="section-head__lead">Ортопедія перша, а поруч хірургія, гінекологія, урологія та діагностика.</p>
+    </div>
+    <div class="dir-grid">
+      {groups.map((g, i) => (
+        <details class:list={["dir", `dir--${g.size}`]} open data-dir>
+          <summary class="dir__summary">
+            <h3 class="dir__title">{g.title}</h3>
+            <Icon name="chevron" class="dir__chevron" />
+          </summary>
+          <div class="dir__body">
+            <ul class="dir__list" role="list">
+              {g.items.map((item) => (
+                <li>{onPath.has(item)
+                  ? <a class="dir__link dir__link--anchor" href="#joint-care"><span>{item}</span><Icon name="arrow" /></a>
+                  : <FutureLink note={futureNote} class="dir__link"><span>{item}</span></FutureLink>}</li>
+              ))}
+            </ul>
+            {g.promo && (
+              <p class="promo">
+                <span class="promo__date">Акція {until}</span>
+                <span class="promo__text">{g.promo.lead}: <strong class="figure">{g.promo.price}</strong>{g.promo.rest && <>{" "}{g.promo.rest}</>}</span>
+              </p>
+            )}
+            {i === 0 && (
+              <a class="btn btn--primary dir__call" href={mainPhone.href}><Icon name="phone" />Подзвонити</a>
+            )}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</Section>

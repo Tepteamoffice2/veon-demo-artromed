@@ -1,0 +1,50 @@
+---
+// #contacts — the finish of the route: the number as the main visual, hours, address with directions, e-mail, socials.
+import Section from "../Section.astro";
+import Stop from "../Stop.astro";
+import FutureLink from "../FutureLink.astro";
+import Icon from "../Icon.astro";
+import { phones, mainPhone, hours, address, email, socials } from "../../data/clinic";
+const others = phones.slice(1);
+---
+<Section id="contacts" class="contacts route route--end" rec="R-109">
+  <div class="container">
+    <div class="section-head">
+      <h2>Контакти та запис</h2>
+    </div>
+    <p class="bignum">
+      <Stop class="stop--final" />
+      <a class="bignum__link figure" href={mainPhone.href} aria-label={`Подзвонити: ${mainPhone.display}`}>
+        <span class="bignum__cc">+38</span><span class="bignum__num">{mainPhone.short}</span>
+      </a>
+    </p>
+    <p class="contacts__same">
+      <span>Той самий номер:</span>
+      {others.map((p) => <a class="contacts__phone figure" href={p.href}>{p.display}</a>)}
+    </p>
+
+    <div class="contacts__grid">
+      <dl class="contacts__item">
+        <dt>Години роботи</dt>
+        <dd>{hours.full}</dd>
+      </dl>
+      <dl class="contacts__item">
+        <dt>Адреса</dt>
+        <dd>{address.full}</dd>
+        <dd><a class="link-arrow" href={address.route} target="_blank" rel="noopener"><Icon name="route" /><span>Прокласти маршрут</span></a></dd>
+      </dl>
+      <dl class="contacts__item">
+        <dt>Пошта</dt>
+        <dd><a class="link-arrow" href={email.href}><Icon name="mail" /><span>{email.display}</span></a></dd>
+      </dl>
+      <div class="contacts__item contacts__item--book">
+        <FutureLink note="Онлайн-запис з'явиться в повній версії сайту" class="contacts__book">Онлайн-запис</FutureLink>
+        <p class="contacts__hint">Зараз запис за телефоном.</p>
+      </div>
+    </div>
+
+    <ul class="contacts__socials" role="list" aria-label="Соцмережі центру">
+      {socials.map((s) => <li><a href={s.href} target="_blank" rel="noopener">{s.name}</a></li>)}
+    </ul>
+  </div>
+</Section>

@@ -1,0 +1,46 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo-artromed.png";
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { nav, mainPhone, hours, address, futureNote } from "../data/clinic";
+---
+<header class="site-header" data-header data-rec="R-101,R-103">
+  <div class="container site-header__bar">
+    <a class="site-header__logo" href="#top" aria-label="Медичний центр Artromed, на початок сторінки">
+      <Image src={logo} alt="" width={96} height={51} widths={[96, 192]} sizes="96px" format="webp" loading="eager" />
+    </a>
+
+    <nav class="site-nav" id="site-menu" aria-label="Розділи сторінки" data-menu>
+      <ul class="site-nav__list" role="list">
+        {nav.map((item) => (
+          <li><a class="site-nav__link" href={item.href} data-nav-link>{item.label}</a></li>
+        ))}
+      </ul>
+      <div class="site-nav__extra">
+        <a class="site-nav__phone" href={mainPhone.href}>{mainPhone.display}</a>
+        <p>{hours.full}</p>
+        <p>{address.full}</p>
+        <a class="site-nav__route" href={address.route} target="_blank" rel="noopener"><Icon name="route" /><span>Прокласти маршрут</span></a>
+      </div>
+    </nav>
+
+    <div class="site-header__actions">
+      <a class="site-header__phone" href={mainPhone.href}>
+        <span class="site-header__number">{mainPhone.display}</span>
+        <span class="site-header__hours">{hours.short}</span>
+      </a>
+      <a class="btn btn--primary site-header__call" href={mainPhone.href}>Подзвонити</a>
+      <p class="lang" aria-label="Мова сайту">
+        <span class="lang__current" aria-current="true">UA</span>
+        <FutureLink note={futureNote} class="lang__other">RU</FutureLink>
+      </p>
+      <a class="site-header__call-icon" href={mainPhone.href} aria-label={`Подзвонити: ${mainPhone.display}`}>
+        <Icon name="phone" />
+      </a>
+      <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
+        <span data-menu-label>Меню</span>
+      </button>
+    </div>
+  </div>
+</header>

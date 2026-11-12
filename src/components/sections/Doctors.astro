@@ -1,0 +1,52 @@
+---
+// #doctors — who will see you (W-F006, W-F005). Real names and photos from the clinic's «Лікарі» page; no experience shown (no data).
+import { Picture } from "astro:assets";
+import Section from "../Section.astro";
+import Stop from "../Stop.astro";
+import FutureLink from "../FutureLink.astro";
+import palahniukK from "../../assets/doctors/palahniuk-k.jpg";
+import mezhyiev from "../../assets/doctors/mezhyiev.jpg";
+import buza from "../../assets/doctors/buza.jpg";
+import palahniukV from "../../assets/doctors/palahniuk-v.jpg";
+import mhani from "../../assets/doctors/mhani.jpg";
+import ksenzov from "../../assets/doctors/ksenzov.jpg";
+import lomakin from "../../assets/doctors/lomakin.jpg";
+import { futureNote } from "../../data/clinic";
+
+const ortho = "Ортопед-травматолог";
+const neuro = "Нейрохірург";
+const doctors = [
+  { name: "Палагнюк Костянтин Валентинович", role: ortho, img: palahniukK },
+  { name: "Межиєв Акраман Умарович", role: ortho, img: mezhyiev },
+  { name: "Буза Руслан Володимирович", role: ortho, img: buza },
+  { name: "Палагнюк Валентин Васильович", role: ortho, img: palahniukV },
+  { name: "Мгані Недал Камел", role: ortho, img: mhani },
+  { name: "Ксензов Тимур Артурович", role: neuro, img: ksenzov },
+  { name: "Ломакін Андрій Михайлович", role: neuro, img: lomakin },
+];
+---
+<Section id="doctors" class="doctors route" rec="R-105">
+  <div class="container">
+    <div class="section-head">
+      <Stop />
+      <h2>Ортопеди-травматологи й нейрохірурги центру</h2>
+    </div>
+  </div>
+  <div class="doctors__rail-wrap">
+    <ul class="doc-grid" role="list" aria-label="Лікарі центру" tabindex="0" data-rail>
+      {doctors.map((d) => (
+        <li class="doc">
+          <figure class="doc__photo">
+            <Picture src={d.img} formats={["avif", "webp"]} widths={[280, 420, 610]} sizes="(min-width: 64rem) 220px, 72vw" alt={`${d.role} ${d.name}`} loading="lazy" decoding="async" />
+          </figure>
+          <h3 class="doc__name">{d.name}</h3>
+          <p class="doc__role">{d.role}</p>
+        </li>
+      ))}
+      <li class="doc doc--all">
+        <p class="doc__all-text">У центрі приймають <strong>24 лікарі та 5 фахівців</strong>: судинні хірурги, гінекологи, уролог, невролог, кардіолог, реабілітологи та інші.</p>
+        <FutureLink note={futureNote} class="doc__all-link">Усі лікарі</FutureLink>
+      </li>
+    </ul>
+  </div>
+</Section>

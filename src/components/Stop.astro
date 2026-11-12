@@ -1,0 +1,6 @@
+---
+// A stop of the route (signature): a hexagon from the logo, sitting on the route line at the height of its block.
+interface Props { class?: string; }
+const { class: cls } = Astro.props;
+---
+<span class:list={["stop", cls]} data-reveal aria-hidden="true"><span class="stop__core"></span></span>

@@ -1,0 +1,113 @@
+/* Hallmark · shape: custom (route) · genre: modern-minimal · theme: custom · job: book · idea: "Один маршрут під одним дахом: від «що болить» до власної палати, з ціною і номером на кожній зупинці" · vibe: "спокійна ясність, факти, маршрут, власний стаціонар"
+ * paper: #FAFBFC · accent: #B83F17 · display: Geologica · body: Onest · hero: H1 и звонок слева, фото ресепшена со стеной-логотипом справа, срез 30° · nav: логотип, 5 якорей, номер текстом + «Подзвонити» (job book: номер — слово действия) · footer: светлый, две строки · imagery: client photos · signature: сквозная линия маршрута с остановками-шестиугольниками до крупного номера
+ * axes: light/geometric-sans/warm · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V4 · weakest: P, a clinic page argues little by itself; the route with a price at every stop carries the argument «операція — не перший крок» */
+/* Hallmark · waive 44c · photo centred on the text column with align-items: center, photo centre y 462 and text centre y 457 at 1440x900 · the measured hero box includes the route stop above the H1, moving the reception photo up would break its calm seat beside the call button */
+/* Hallmark · dismissed 23 · the accent rule paints only 12-22 px route stops and the call button, never a viewport-scale fill */
+/* Hallmark · dismissed F4 · the pressed implant button is a tinted surface with a primary outline, the only filled action on the page stays «Подзвонити» */
+/* Hallmark · dismissed F20 · «Той самий номер» is a label followed by two phone links on one line at 1440, a sentence and not a grid row */
+/* Line 1 of this file is the Hallmark stamp (docs/process/hallmark.md), filled from design/concept.md. */
+/* Client design tokens — only from design/concept.md («Дизайн-система для FULL», veon-concept). */
+:root {
+  /* Colour roles */
+  --color-bg: #FAFBFC;
+  --color-surface: #E9EFF5;
+  --color-text: #0D2440;
+  --color-muted: #4B5B6E;
+  --color-primary: #1A4F96;
+  --color-accent: #B83F17;
+  --color-accent-hover: #9E3412;
+  --color-on-accent: #FAFBFC; /* concept: #FFFFFF; tinted to the paper (Hallmark 7b), 5.4:1 on #B83F17 */
+  --color-accent-ink: var(--color-on-accent);
+  --color-dark: #0D2440;
+  --color-on-dark: #FAFBFC;
+  --color-on-dark-muted: #B9C6D6;
+  --color-accent-on-dark: #F2875A;
+  --color-rule: #C5D0DB;
+  --color-field-border: #6E7F93;
+  --color-focus: #1A4F96;
+  --color-focus-on-dark: #F2875A;
+  --color-rule-dark: color-mix(in srgb, var(--color-on-dark) 18%, transparent);
+  --shadow-raised: 0 1px 2px rgb(13 36 64 / 0.08);
+
+  /* Type */
+  --font-display: "Geologica", system-ui, sans-serif;
+  --font-body: "Onest", system-ui, sans-serif;
+  --weight-regular: 400;
+  --weight-strong: 600;
+  --text-sm: 0.875rem;   /* 14 */
+  --text-md: 1.0625rem;  /* 17 */
+  --text-lead: 1.3125rem; /* 21 */
+  --text-title: 1.625rem; /* 26 */
+  --text-section: 1.875rem; /* 30 on 390, 44 from 64rem */
+  --text-display: clamp(2.125rem, 1.2rem + 3.9vw, 4.25rem); /* concept: clamp(2.125rem, 1.2rem + 3.9vw, 4.75rem), «до 76 px, 3–4 строки»: capped at 68 px so the H1 holds 4 lines on 7 columns */
+  --text-figure: clamp(2.5rem, 1.5rem + 4vw, 5.5rem);
+  --leading-body: 1.6;
+  --leading-head: 1.1;
+  --leading-display: 1.06;
+
+  /* Space: 4/8 scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --space-11: 160px;
+
+  /* Canvas: 12 columns, container 1360, gutters 24 / 48 / 80 (base .container reads --space and --container) */
+  --space: var(--space-5);
+  --container: 1360px;
+  --gap: var(--space-4);
+  --cw: min(100% - 2 * var(--space), var(--container));
+  --header-h: 64px;
+  --callbar-h: 72px;
+  --radius: 6px;
+  --radius-sm: 4px;
+  --cut: 56px;            /* the 30° corner of a hexagon: horizontal leg */
+  --cut-y: 32px;          /* = --cut × tan 30° */
+
+  /* Route (signature) */
+  --route-w: 2px;
+  --route-x: 10px;
+  --stop: 12px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-in: cubic-bezier(.5, 0, .75, 0);
+  --dur-micro: 120ms;
+  --dur-short: 200ms;
+  --dur-switch: 240ms;
+  --dur-route: 700ms;
+  --dur-hero: 600ms;
+  --dur: 600ms;
+
+  /* Layers */
+  --z-route: 1;
+  --z-raised: 10;
+  --z-sticky: 200;
+  --z-nav: 300;
+  --z-menu: 400;
+}
+/* Breakpoints (rem, same for the whole page): 40rem — type, 64rem — layout (desktop header and 12-column grid), 80rem — phone text in the header */
+@media (min-width: 40rem) {
+  :root { --space: var(--space-7); --gap: var(--space-5); }
+}
+@media (min-width: 64rem) {
+  :root {
+    --header-h: 72px;
+    --text-section: 2.75rem; /* 44 */
+    --route-x: calc((100% - var(--cw)) / 2 + 12px);
+    --stop: 22px;
+    --cut: 96px;
+    --cut-y: 55px;
+    --dur-hero: 800ms;
+  }
+}
+@media (min-width: 90rem) {
+  :root { --space: 80px; }
+}

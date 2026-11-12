@@ -1,0 +1,45 @@
+---
+// #inpatient — own inpatient department (W-F004). Photo: the operating room from the clinic's site.
+import { Picture } from "astro:assets";
+import Section from "../Section.astro";
+import Stop from "../Stop.astro";
+import FutureLink from "../FutureLink.astro";
+import Icon from "../Icon.astro";
+import operating from "../../assets/photos/operating-room.jpg";
+import { mainPhone, futureNote } from "../../data/clinic";
+---
+<Section id="inpatient" class="band band--surface inpatient route" rec="R-107">
+  <div class="container inpatient__grid">
+    <figure class="inpatient__photo">
+      <Picture
+        src={operating}
+        formats={["avif", "webp"]}
+        widths={[480, 720, 1000]}
+        sizes="(min-width: 64rem) 46vw, calc(100vw - 48px)"
+        alt="Операційна медичного центру Artromed: хірург біля операційного столу"
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+    <div class="inpatient__text">
+      <div class="section-head">
+        <Stop />
+        <h2>Власний стаціонар: 11 палат і 3 операційні</h2>
+      </div>
+      <ul class="facts" role="list">
+        <li><span class="facts__big figure">11</span><span>палат</span></li>
+        <li><span class="facts__big figure">3</span><span>операційні</span></li>
+        <li><span class="facts__big">Триразове</span><span>харчування</span></li>
+        <li><span class="facts__big">Цілодобовий</span><span>нагляд</span></li>
+      </ul>
+      <dl class="rooms">
+        <div><dt>Двомісні палати</dt><dd>стандарт</dd></div>
+        <div><dt>Одномісні палати VIP</dt><dd>TV, кондиціонер, санвузол</dd></div>
+      </dl>
+      <div class="inpatient__actions">
+        <a class="btn btn--primary" href={mainPhone.href}><Icon name="phone" />Подзвонити</a>
+        <FutureLink note={futureNote}>Детальніше про стаціонар</FutureLink>
+      </div>
+    </div>
+  </div>
+</Section>

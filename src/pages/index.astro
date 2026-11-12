@@ -1,0 +1,48 @@
+---
+import Base from "../layouts/Base.astro";
+import Icons from "../components/Icons.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import CallBar from "../components/CallBar.astro";
+import Hero from "../components/sections/Hero.astro";
+import Directions from "../components/sections/Directions.astro";
+import JointCare from "../components/sections/JointCare.astro";
+import Inpatient from "../components/sections/Inpatient.astro";
+import Doctors from "../components/sections/Doctors.astro";
+import Contacts from "../components/sections/Contacts.astro";
+import { phones, email, address, legalName, brandName, socials } from "../data/clinic";
+
+// H1 — exactly from design/concept.md (veon-concept)
+const h1 = "Лікування суглобів і хребта в Одесі — від консультації до власного стаціонару";
+const title = "Медичний центр Artromed в Одесі — ортопедія, хірургія, власний стаціонар";
+const description = "Ортопедія-травматологія та ще 14 напрямків, діагностика, 3 операційні й 11 палат на вул. Балківській, 120/1. Консультація ортопеда — 800 грн. Пн–Сб 08:00–20:00.";
+
+// JSON-LD MedicalClinic: only facts from veon/client.json, no ratings or reviews
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MedicalClinic",
+  name: brandName,
+  legalName,
+  address: { "@type": "PostalAddress", streetAddress: "вул. Балківська, 120/1", addressLocality: "Одеса", addressCountry: "UA" },
+  geo: { "@type": "GeoCoordinates", latitude: address.lat, longitude: address.lng },
+  telephone: phones.map((p) => p.display),
+  email: email.display,
+  openingHours: "Mo-Sa 08:00-20:00",
+  sameAs: socials.map((s) => s.href),
+  medicalSpecialty: ["Musculoskeletal", "Neurologic", "Gynecologic", "Urologic", "Cardiovascular", "Endocrine", "Otolaryngologic", "Physiotherapy", "Surgical"],
+};
+---
+<Base lang="uk" title={title} description={description}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <Icons />
+  <Header slot="header" />
+  <Hero h1={h1} />
+  <Directions />
+  <JointCare />
+  <Inpatient />
+  <Doctors />
+  <Contacts />
+  <Footer slot="footer" />
+  <CallBar slot="footer" />
+  <script src="../scripts/main.ts"></script>
+</Base>
